@@ -3,9 +3,8 @@ import TodoList from "./components/TodoList.vue";
 </script>
 
 <template>
-    <h2>Todolist</h2>
+    <h1>Todolist</h1>
     <TodoList/>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

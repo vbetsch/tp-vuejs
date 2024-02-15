@@ -3,20 +3,10 @@ import {reactive} from "vue";
 import Todo from "./TodoItem.vue";
 
 let inputNewValue = ""
-let todos: TodoItemType[] = reactive([
-    {
-        title: "Réviser les cours de DevOps"
-    },
-    {
-        title: "Revoir les design pattern"
-    },
-    {
-        title: "Apprendre Vuejs"
-    },
-])
+let todos: TodoItemType[] = reactive([])
 
 function clickOnAddTodo() {
-    if (inputNewValue) {
+    if (inputNewValue !== "") {
         todos.push({
             title: inputNewValue
         })
@@ -33,7 +23,7 @@ function clickOnDeleteTodo(todo: TodoItemType) {
 </script>
 
 <template>
-    <input id="new-todo" type="text" v-model="inputNewValue">
+    <input id="new-todo" type="text" v-model="inputNewValue" @keydown.enter="clickOnAddTodo" autofocus>
     <label for="new-todo">
         <button @click="clickOnAddTodo">Add</button>
     </label>
@@ -43,6 +33,4 @@ function clickOnDeleteTodo(todo: TodoItemType) {
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
