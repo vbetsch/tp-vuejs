@@ -1,46 +1,46 @@
 <script setup lang="ts">
 import {reactive} from "vue";
+import Todo from "./TodoItem.vue";
 
-interface TodoItem {
-  title: string,
-}
-
-let inputValue: string = ""
-let todos: TodoItem[] = reactive([
-  {
-    title: "Réviser les cours de DevOps"
-  },
-  {
-    title: "Revoir les design pattern"
-  },
-  {
-    title: "Apprendre Vuejs"
-  },
+let inputNewValue = ""
+let todos: TodoItemType[] = reactive([
+    {
+        title: "Réviser les cours de DevOps"
+    },
+    {
+        title: "Revoir les design pattern"
+    },
+    {
+        title: "Apprendre Vuejs"
+    },
 ])
 
 function clickOnAddTodo() {
-  todos.push({
-    title: inputValue
-  })
+    if (inputNewValue) {
+        todos.push({
+            title: inputNewValue
+        })
+        inputNewValue = ""
+    }
 }
 
-function clickOnDeleteTodo(todo: TodoItem) {
-  todos.splice(
-      todos.indexOf(todo),
-      1
-  );
+function clickOnDeleteTodo(todo: TodoItemType) {
+    todos.splice(
+        todos.indexOf(todo),
+        1
+    );
 }
 </script>
 
 <template>
-  <input id="new-todo" type="text" v-model="inputValue">
-  <label for="new-todo">
-    <button @click="clickOnAddTodo">Ajouter</button>
-  </label>
-  <div v-for="todo in todos">
-    <p>{{ todo.title }}</p>
-    <button @click="clickOnDeleteTodo(todo)">Delete</button>
-  </div>
+    <input id="new-todo" type="text" v-model="inputNewValue">
+    <label for="new-todo">
+        <button @click="clickOnAddTodo">Add</button>
+    </label>
+    <div v-for="todo in todos" :key="todos.indexOf(todo)">
+        <Todo :todo="todo"/>
+        <button @click="clickOnDeleteTodo(todo)">Delete</button>
+    </div>
 </template>
 
 <style scoped>

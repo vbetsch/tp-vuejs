@@ -1,0 +1,3 @@
+interface TodoItemType {
+    title: string,
+}
