@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 
 defineProps<{
     todo: TodoItemType
 }>()
 
-let editMode = ref(false)
+let editMode: Ref<boolean> = ref(false)
 
 function clickOnEditButton() {
     editMode.value = true
@@ -19,6 +19,7 @@ function clickOnSubmitButton(todo: TodoItemType) {
 </script>
 
 <template>
+    <input type="checkbox" v-model="todo.isSelected" :checked="todo.isSelected">
     <p v-if="!editMode">{{ todo.title }}</p>
     <input v-if="editMode" id="edit-todo" type="text" v-model="todo.title" @focusout="editMode = false"
            @keydown.enter="clickOnSubmitButton(todo)">

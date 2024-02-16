@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import {reactive} from "vue";
+import {reactive, Ref, ref} from "vue";
 import Todo from "./TodoItem.vue";
 
-let inputNewValue = ""
+let inputNewValue: Ref<string> = ref("")
 let todos: TodoItemType[] = reactive([])
 
 function clickOnAddTodo() {
-    if (inputNewValue !== "") {
+    if (inputNewValue.value !== "") {
         todos.push({
-            title: inputNewValue
+            title: inputNewValue.value,
+            isSelected: false
         })
-        inputNewValue = ""
+        inputNewValue.value = ""
     }
 }
 
@@ -20,6 +21,13 @@ function clickOnDeleteTodo(todo: TodoItemType) {
         1
     );
 }
+
+function clickOnDeleteSelectedTodos() {
+    const selectedTodos = todos.filter((todo: TodoItemType) => todo.isSelected)
+    if (selectedTodos.length) {
+        selectedTodos.map((todo) => clickOnDeleteTodo(todo))
+    }
+}
 </script>
 
 <template>
@@ -27,10 +35,17 @@ function clickOnDeleteTodo(todo: TodoItemType) {
     <label for="new-todo">
         <button @click="clickOnAddTodo">Add</button>
     </label>
-    <div v-for="todo in todos" :key="todos.indexOf(todo)">
+    <button @click="clickOnDeleteSelectedTodos">Delete selected</button>
+    <div class="todo" v-for="todo in todos" :key="todos.indexOf(todo)">
         <Todo :todo="todo"/>
         <button @click="clickOnDeleteTodo(todo)">Delete</button>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.todo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
