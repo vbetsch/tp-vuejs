@@ -2,8 +2,11 @@
 import {reactive, Ref, ref} from "vue";
 import Todo from "./TodoItem.vue";
 
-let inputNewValue: Ref<string> = ref("")
 let todos: TodoItemType[] = reactive([])
+let displayedTodos: TodoItemType[] = reactive([])
+let inputNewValue: Ref<string> = ref("")
+let searchValue: Ref<string> = ref("")
+let searchMode: Ref<boolean> = ref(false)
 
 function clickOnAddTodo() {
     if (inputNewValue.value) {
@@ -28,6 +31,13 @@ function clickOnDeleteTodo(todo: TodoItemType) {
     );
 }
 
+function onKeyUpSearchBar() {
+    searchMode.value = true;
+    displayedTodos = todos.filter((todo) => (
+        todo.title.includes(searchValue.value)
+    ))
+}
+
 </script>
 
 <template>
@@ -43,7 +53,24 @@ function clickOnDeleteTodo(todo: TodoItemType) {
         <button @click="clickOnAddTodo">Add</button>
     </label>
     <button @click="clickOnDeleteSelectedTodos">Delete selected</button>
-    <div class="todolist">
+    <div class="filter">
+        <input
+            id="search-bar"
+            type="text"
+            placeholder="Search a todo..."
+            v-model="searchValue"
+            @keyup="onKeyUpSearchBar"
+            @focusout="searchMode = false"
+        >
+    </div>
+    <div v-if="searchMode" class="todolist">
+        <div v-for="todo in displayedTodos" :key="todos.indexOf(todo)"
+             :class="'todo' + (todo.isDone ? ' done' : '') + (todo.isSelected ? ' selected' : '')">
+            <Todo :todo="todo" :function-to-delete-todo="clickOnDeleteTodo"/>
+        </div>
+        <p v-if="!displayedTodos.length">No todo found</p>
+    </div>
+    <div v-else class="todolist">
         <div v-for="todo in todos" :key="todos.indexOf(todo)"
              :class="'todo' + (todo.isDone ? ' done' : '') + (todo.isSelected ? ' selected' : '')">
             <Todo :todo="todo" :function-to-delete-todo="clickOnDeleteTodo"/>

@@ -60,10 +60,12 @@ function clickOnEditOrSubmitButton(todo: TodoItemType) {
 .title-text {
     user-select: none;
 }
+
 .buttons {
     display: flex;
     gap: 5px;
 }
+
 .button {
     width: 100px;
 }
