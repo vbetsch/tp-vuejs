@@ -34,7 +34,9 @@ function clickOnEditOrSubmitButton(todo: TodoItemType) {
             class="title-input"
             type="text"
             v-model="todo.title"
-            @keydown.enter="clickOnEditOrSubmitButton(todo)">
+            placeholder="Edit todo title"
+            @keydown.enter="clickOnEditOrSubmitButton(todo)"
+        >
         <span v-else class="title-text" @click="clickOnSelectTodo(todo)">{{ todo.title }}</span>
     </div>
     <div class="buttons">

@@ -31,7 +31,14 @@ function clickOnDeleteTodo(todo: TodoItemType) {
 </script>
 
 <template>
-    <input id="new-todo" type="text" v-model="inputNewValue" @keydown.enter="clickOnAddTodo" autofocus>
+    <input
+        id="new-todo"
+        type="text"
+        placeholder="Add a new todo"
+        v-model="inputNewValue"
+        @keydown.enter="clickOnAddTodo"
+        autofocus
+    >
     <label for="new-todo">
         <button @click="clickOnAddTodo">Add</button>
     </label>
