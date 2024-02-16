@@ -16,6 +16,7 @@ function clickOnSelectTodo(todo: TodoItemType) {
 }
 
 function clickOnEditOrSubmitButton(todo: TodoItemType) {
+    console.log( "(16/02/2024 10:59) @vbetsch [ TodoItem.vue:19 - clickOnEditOrSubmitButton - clickOnEditOrSubmitButton ] editMode.value", editMode.value );
     if (editMode.value) {
         if (!todo.title) return
     }
@@ -33,7 +34,6 @@ function clickOnEditOrSubmitButton(todo: TodoItemType) {
             class="title-input"
             type="text"
             v-model="todo.title"
-            @focusout="clickOnEditOrSubmitButton(todo)"
             @keydown.enter="clickOnEditOrSubmitButton(todo)">
         <span v-else class="title-text" @click="clickOnSelectTodo(todo)">{{ todo.title }}</span>
     </div>
