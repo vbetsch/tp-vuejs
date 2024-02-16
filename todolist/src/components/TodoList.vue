@@ -6,7 +6,7 @@ let inputNewValue: Ref<string> = ref("")
 let todos: TodoItemType[] = reactive([])
 
 function clickOnAddTodo() {
-    if (inputNewValue.value !== "") {
+    if (inputNewValue.value) {
         todos.push({
             title: inputNewValue.value,
             isSelected: false
@@ -24,9 +24,7 @@ function clickOnDeleteTodo(todo: TodoItemType) {
 
 function clickOnDeleteSelectedTodos() {
     const selectedTodos = todos.filter((todo: TodoItemType) => todo.isSelected)
-    if (selectedTodos.length) {
-        selectedTodos.map((todo) => clickOnDeleteTodo(todo))
-    }
+    selectedTodos.map((todo: TodoItemType) => clickOnDeleteTodo(todo))
 }
 </script>
 
@@ -36,16 +34,35 @@ function clickOnDeleteSelectedTodos() {
         <button @click="clickOnAddTodo">Add</button>
     </label>
     <button @click="clickOnDeleteSelectedTodos">Delete selected</button>
-    <div class="todo" v-for="todo in todos" :key="todos.indexOf(todo)">
-        <Todo :todo="todo"/>
-        <button @click="clickOnDeleteTodo(todo)">Delete</button>
+    <div class="todolist">
+        <div v-for="todo in todos" :key="todos.indexOf(todo)"
+             :class="'todo' + (todo.isSelected ? ' selected' : '')">
+            <Todo :todo="todo"/>
+            <button @click="clickOnDeleteTodo(todo)">Delete</button>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.todo {
+.todolist {
     display: flex;
-    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+
+.todo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    background-color: #424242;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.todo.selected {
+    background-color: #646cff;
 }
 </style>
