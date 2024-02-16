@@ -1,4 +1,5 @@
 interface TodoItemType {
     title: string,
-    isSelected: boolean
+    isSelected: boolean,
+    isDone: boolean
 }

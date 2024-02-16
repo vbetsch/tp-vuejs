@@ -3,6 +3,7 @@ import {Ref, ref} from "vue";
 
 defineProps<{
     todo: TodoItemType
+    functionToDeleteTodo: (todo: TodoItemType) => void
 }>()
 
 const vFocus = {
@@ -16,7 +17,6 @@ function clickOnSelectTodo(todo: TodoItemType) {
 }
 
 function clickOnEditOrSubmitButton(todo: TodoItemType) {
-    console.log( "(16/02/2024 10:59) @vbetsch [ TodoItem.vue:19 - clickOnEditOrSubmitButton - clickOnEditOrSubmitButton ] editMode.value", editMode.value );
     if (editMode.value) {
         if (!todo.title) return
     }
@@ -37,21 +37,32 @@ function clickOnEditOrSubmitButton(todo: TodoItemType) {
             @keydown.enter="clickOnEditOrSubmitButton(todo)">
         <span v-else class="title-text" @click="clickOnSelectTodo(todo)">{{ todo.title }}</span>
     </div>
-    <button @click="clickOnEditOrSubmitButton(todo)">
-        {{ editMode ? "Submit" : "Edit" }}
-    </button>
+    <div class="buttons">
+        <button class="button" @click="todo.isDone = !todo.isDone">
+            {{ todo.isDone ? "Cancel" : "Done" }}
+        </button>
+        <button class="button" @click="clickOnEditOrSubmitButton(todo)">
+            {{ editMode ? "Submit" : "Edit" }}
+        </button>
+        <button class="button" @click="functionToDeleteTodo(todo)">Delete</button>
+    </div>
 </template>
 
 <style scoped>
 .title {
-    width: 100%;
+    width: 12vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .title-text {
     user-select: none;
 }
-
-.title-input {
-    width: 12vw;
+.buttons {
+    display: flex;
+    gap: 5px;
+}
+.button {
+    width: 100px;
 }
 </style>
