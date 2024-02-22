@@ -2,9 +2,10 @@
 import {reactive, Ref, ref} from "vue";
 import Todo from "./TodoItem.vue";
 
+let inputNewValue: Ref<string> = ref("")
 let todos: TodoItemType[] = reactive([])
 let displayedTodos: TodoItemType[] = reactive([])
-let inputNewValue: Ref<string> = ref("")
+
 let searchValue: Ref<string> = ref("")
 let searchMode: Ref<boolean> = ref(false)
 
@@ -53,6 +54,17 @@ function onKeyUpSearchBar() {
         <button @click="clickOnAddTodo">Add</button>
     </label>
     <button @click="clickOnDeleteSelectedTodos">Delete selected</button>
+    <span>
+        <b>
+            <span v-if="searchMode">{{ displayedTodos.length }}</span>
+            <span v-else>{{ todos.length }}</span>
+        </b> todos
+    </span>
+    <span>
+        <b>
+            {{ todos.filter((todo: TodoItemType) => todo.isSelected).length }}
+        </b> selected
+    </span>
     <div class="filter">
         <input
             id="search-bar"
